@@ -54,12 +54,9 @@ if __name__ == "__main__":
         print(f"Transaction completed successfully. Stock records with product_id '{id_to_delete}' and Product record with id '{id_to_delete}' have been deleted.")
         
     except psycopg.Error as e:
-        if conn:
-            conn.rollback()  # Rollback any uncommitted transactions. This maintains CONSISTENCY by preventing partial updates to the database and maintains ATOMICITY by ensuring that either all operations grouped in the transaction succeed or none do (i.e., they are all committed or all rolled back).
+        conn.rollback()  # Rollback any uncommitted transactions. This maintains CONSISTENCY by preventing partial updates to the database and maintains ATOMICITY by ensuring that either all operations grouped in the transaction succeed or none do (i.e., they are all committed or all rolled back).
         print(f"Transaction failed, rolling back changes. Error: {e}")
 
     finally:
-        if conn:
-            conn.close()  # Close the database connection to free up resources regardless of whether the transaction was successful or not.
-            print("Database connection closed.")
-        
+        conn.close()  # Close the database connection to free up resources regardless of whether the transaction was successful or not.
+        print("Database connection closed.")
