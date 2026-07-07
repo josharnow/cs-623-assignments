@@ -1,0 +1,59 @@
+# This docker-compose.yml file sets up a multi-container environment with PostgreSQL, MySQL, and pgAdmin for database management. The services can be used for assignments.
+services:
+  # PostgreSQL Database
+  cs_623_postgres:
+    image: postgres:latest
+    container_name: cs_623_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - db_network
+
+  # MySQL Database
+  cs_623_mysql:
+    image: mysql:latest
+    container_name: cs_623_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: josh
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - db_network
+
+  # pgAdmin (Web UI for PostgreSQL)
+  cs_623_pgadmin:
+    image: dpage/pgadmin4
+    container_name: cs_623_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: josh@josharnow.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5051:80"
+    depends_on:
+      - cs_623_postgres
+    networks:
+      - db_network
+
+# Define persistent storage volumes
+volumes:
+  postgres_data:
+  mysql_data:
+
+# Define a shared network
+networks:
+  db_network:
+    driver: bridge
