@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
     ports:
-      - "5433:5433"
+      - "5433:5432"  # Expose PostgreSQL on port 5433 to avoid conflicts with any local PostgreSQL installations
     volumes:
       - postgres_data:/var/lib/postgresql
     networks:

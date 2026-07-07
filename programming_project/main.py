@@ -3,6 +3,7 @@ import sys
 
 # Define database connection parameters (typically set in environment variables)
 DB_HOST = "localhost"
+DB_PORT = "5433" # This is the port being used by the Docker container running the PostgreSQL database; Docker maps it to 5432 internally. 5433 is used externally to prevent conflicts with local PostgreSQL instances that may be running on default port 5432.
 DB_NAME = "postgres"
 DB_USER = "root"
 DB_PASSWORD = "root"
@@ -13,6 +14,7 @@ def connect_to_db():
         print("Connecting to the PostgreSQL database...")
         conn = psycopg.connect(
             host=DB_HOST,
+            port=DB_PORT,
             dbname=DB_NAME,
             user=DB_USER,
             password=DB_PASSWORD,
