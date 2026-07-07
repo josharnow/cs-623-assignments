@@ -46,7 +46,7 @@ if __name__ == "__main__":
         id_to_delete = "p1"
 
         # Execute the deletion from the Stock table. This deletion occurs first to maintain referential integrity and thus preserve the CONSISTENCY of the database, avoiding a foreign key violation.
-        cur.execute("DELETE FROM Stock WHERE prodid = %s", (id_to_delete,))
+        cur.execute("DELETE FROM Stock WHERE prodid = %s", (id_to_delete,)) # Using %s parameterization acts like a Java PreparedStatement to prevent SQL injection
 
         # Execute the deletion from the Product table. Since the deletion from Stock has already been executed, this deletion will not violate any foreign key constraints; thus, the CONSISTENCY of the database is maintained.
         cur.execute("DELETE FROM Product WHERE prodid = %s", (id_to_delete,))
