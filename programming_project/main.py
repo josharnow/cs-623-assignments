@@ -18,8 +18,6 @@ def connect_to_db():
             dbname=DB_NAME,
             user=DB_USER,
             password=DB_PASSWORD,
-            autocommit=False # Although autocommit is set to False by default, it is explicitly stated here for clarity
-            # Autocommit must be set to False to manually handle transaction commits, allowing for commit and rollback operations as needed to preserve ATOMICITY.
         )
         print("Connection successful!")
         return conn
@@ -30,9 +28,13 @@ def connect_to_db():
 if __name__ == "__main__":
     # Connect to the PostgreSQL database
     conn = connect_to_db()
+
     # To ensure ISOLATION, the isolation level is set to SERIALIZABLE, which is the strictest level. This makes transactions serializable.
-    
     conn.set_isolation_level(psycopg.IsolationLevel.SERIALIZABLE)
+
+    # Autocommit must be set to False to manually handle transaction commits, allowing for commit and rollback operations as needed to preserve ATOMICITY.
+    conn.autocommit = False # Although autocommit is set to False by default, it is explicitly stated here for clarity
+
 
     # Use try/catch block to handle potential errors during the transaction.
     try:
